@@ -30,7 +30,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc README.md COPYRIGHT
+%doc README.md LICENSE
 %{_datadir}/*
 
 %changelog
