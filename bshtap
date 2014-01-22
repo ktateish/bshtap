@@ -1,0 +1,168 @@
+#!/bin/sh
+#
+# Copyright (c) 2014 Katsuyuki Tateishi <kt@wheel.jp>
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+#
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+# OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+# HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+# LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+# OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+# SUCH DAMAGE.
+#
+
+_BSHTAP_DONE=0
+
+_bshtap_test_ok_ng () {
+	_BSHTAP_DONE=$(expr $_BSHTAP_DONE + 1)
+	echo "$1" $_BSHTAP_DONE - "$2"
+}
+
+_bshtap_test_ok () {
+	_bshtap_test_ok_ng 'ok' "$1"
+}
+
+_bshtap_test_ng () {
+	_bshtap_test_ok_ng 'not ok' "$1"
+}
+
+_bshtap_is_isnt () {
+	local mode res expected name
+	mode=$1
+	res="${2?"${mode}: no argument for test code"}"
+	expected="${3?"${mode}: no argument for expected result"}"
+	name="${4:-"\"${res}\" ${mode} \"${expected}\""}"
+
+	local got result
+	got="$(eval $res)"
+	if test "$got" = "$expected"; then
+		result="is"
+	else
+		result="isnt"
+	fi
+
+	if test "$mode" = "$result"; then
+		_bshtap_test_ok "$name"
+	else
+		_bshtap_test_ng "$name"
+
+		diag "got: $got"
+		echo -n "# "
+		if test "$mode" = "isnt"; then
+			echo -n "not "
+		fi
+		echo "expected: $expected"
+	fi
+}
+
+_bshtap_like_unlike () {
+	local mode res regex name
+	mode=$1
+	res="${2?"${mode}: no argument for test code"}"
+	regex="${3?"${mode}: no argument for regex"}"
+	name="${4:-"\"${res}\" ${mode} /${regex}/"}"
+
+	local got result
+	got=$(eval $res)
+	if echo "$got" | egrep -q "$regex" ; then
+		result=like
+	else
+		result=unlike
+	fi
+
+	if test "$mode" = "$result"; then
+		_bshtap_test_ok "$name"
+	else
+		_bshtap_test_ng "$name"
+		diag "got: $got"
+		diag "expected $mode: /$regex/"
+	fi
+}
+
+cmp_ok () {
+	local res op expected name
+	res="${1?"cmp_ok: no argument for test code"}"
+	op="${2?"cmp_ok: no argument for operator"}"
+	expected="${3?"cmp_ok: no argument for expected value"}"
+	name="${4:-"\"${res}\" ${op} \"${expected}\""}"
+
+	local output result
+	output=$(mktemp ${TMPDIR:-/var/tmp/}bshtap-XXXXXX)
+	eval $res > $output
+	result=$?
+
+	if test $result "$op" $expected; then
+		_bshtap_test_ok "$name"
+		sed -e 's/^/# stdout: /' $output
+		rm -f $output
+	else
+		_bshtap_test_ng "$name"
+		sed -e 's/^/# stdout: /' $output
+		rm -f $output
+		diag "test: '$res' $op '$expected'"
+		diag "got: $result"
+	fi
+}
+
+
+diag () {
+	echo "$@" |sed -e 's/^/# /'
+}
+
+tests () {
+	_BSHTAP_DONE=0
+	echo 1..$1
+}
+
+skip_all () {
+	echo "1..0"
+	# Reason
+	echo "# $@"
+	exit
+}
+
+done_testing () {
+	if test -n "$1"; then
+		echo 1..$1
+	else
+		echo 1..$_BSHTAP_DONE
+	fi
+	_BSHTAP_DONE=0
+}
+
+ok () {
+	local res name
+	res="${1?"ok: no argument for test code"}"
+	name="${2:-"\"${res}\" returns 0"}"
+	cmp_ok "$res" -eq 0 "$name"
+}
+
+is () {
+	_bshtap_is_isnt is "$@"
+}
+
+isnt () {
+	_bshtap_is_isnt isnt "$@"
+}
+
+like () {
+	_bshtap_like_unlike like "$@"
+}
+
+unlike () {
+	_bshtap_like_unlike unlike "$@"
+}

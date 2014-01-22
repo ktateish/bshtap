@@ -1,0 +1,33 @@
+# output with diag
+# 
+# 
+# foo
+# foo
+# foo
+# foo bar
+# foo bar
+# foo bar
+# foo bar
+# foo bar
+# foo foo foo
+# foo foo foo
+# $(nword 3 foo)
+# foo foo foo
+# foo foo foo
+# `nword 3 foo`
+# foo foo foo
+# foo
+# foo
+# foo
+# output without test name
+ok 1 - "true" returns 0
+ok 2 - "nword 1 foo" is "foo"
+ok 3 - "nword 1 foo" isnt "bar"
+ok 4 - "nword 1 foo" like /^foo$/
+ok 5 - "nword 1 foo" unlike /of/
+ok 6 - "true" -eq "0"
+# stdout will be commented out when ok / cmp_ok
+ok 7 - "nword 1 foo" returns 0
+# stdout: foo
+ok 8 - "nword 1 foo" -eq "0"
+# stdout: foo
