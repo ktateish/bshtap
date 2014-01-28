@@ -129,9 +129,8 @@ tests () {
 }
 
 skip_all () {
-	echo "1..0"
 	# Reason
-	echo "# $@"
+	echo "1..0 # SKIP $@"
 	exit
 }
 
