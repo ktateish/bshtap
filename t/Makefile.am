@@ -7,7 +7,8 @@ TESTS = \
 	fail.t \
 	load.t \
 	ok.t \
-	output.t
+	output.t \
+	misc.t
 
 EXTRA_DIST = \
 	     common.sh \
