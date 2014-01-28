@@ -4,6 +4,7 @@ T_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
 
 TESTS = \
 	fail.t \
+	load.t \
 	ok.t \
 	output.t
 
