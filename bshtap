@@ -102,7 +102,7 @@ cmp_ok () {
 
 	local output result
 	output=$(mktemp ${TMPDIR:-/var/tmp/}bshtap-XXXXXX)
-	eval $res > $output
+	( eval $res > $output )
 	result=$?
 
 	if test $result "$op" $expected; then
