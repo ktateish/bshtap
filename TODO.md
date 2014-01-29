@@ -3,12 +3,11 @@ BshTAP TODO
 
 Enhancement
 -----------
- * Test code
- * BAIL_OUT
- * skip
- * todo
- * pass(message) -> (ok(true, message))
- * fail(message) -> (ok(false, message))
- * MacOS X support
- * Readme
- * subtest
+ - [ ] Test code
+ - [x] BAIL_OUT
+ - [ ] skip
+ - [ ] pass(message) -> (ok(true, message))
+ - [ ] fail(message) -> (ok(false, message))
+ - [ ] MacOS X support
+ - [x] Readme
+ - [ ] subtest
