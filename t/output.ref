@@ -31,3 +31,7 @@ ok 7 - "nword 1 foo" returns 0
 # stdout: foo
 ok 8 - "nword 1 foo" -eq "0"
 # stdout: foo
+1..0 # SKIP 
+1..0 # SKIP some reason
+
+ALL_DONE

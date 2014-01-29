@@ -49,6 +49,12 @@ diag stdout will be commented out when ok / cmp_ok
 ok "nword 1 foo"
 cmp_ok "nword 1 foo" -eq 0
 
+( skip_all )
+( skip_all some reason )
+
+echo
+echo ALL_DONE
+
 EOM
 ) |sh - > output.out
 
