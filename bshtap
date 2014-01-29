@@ -25,7 +25,27 @@
 # SUCH DAMAGE.
 #
 
+_BSHTAP_NTESTS=
 _BSHTAP_DONE=0
+
+_bshtap_exit_check () {
+	if test -n "$_BSHTAP_NTESTS"; then
+		if test $_BSHTAP_NTESTS -ne $_BSHTAP_DONE; then
+			echo "# You planed $_BSHTAP_NTESTS but only" \
+			       "$_BSHTAP_DONE tests have done." >&2
+			#exit 255
+		fi
+	else
+		if test $_BSHTAP_DONE -ne 0; then
+			echo "# Test plan('tests') is not defined or cannot" \
+				"reached to 'done_testing'." >&2
+			echo "# $_BSHTAP_DONE tests have done at exit." >&2
+			#exit 255
+		fi
+	fi
+}
+
+trap _bshtap_exit_check 0
 
 _bshtap_test_ok_ng () {
 	_BSHTAP_DONE=$(expr $_BSHTAP_DONE + 1)
@@ -125,6 +145,7 @@ diag () {
 
 tests () {
 	_BSHTAP_DONE=0
+	_BSHTAP_NTESTS=$1
 	echo 1..$1
 }
 
@@ -141,7 +162,7 @@ done_testing () {
 	else
 		echo 1..$_BSHTAP_DONE
 	fi
-	_BSHTAP_DONE=0
+	_BSHTAP_NTESTS=$_BSHTAP_DONE	# for _bshtap_exit_check
 }
 
 ok () {
