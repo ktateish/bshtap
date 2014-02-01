@@ -12,70 +12,70 @@ else
 fi
 
 # test 2
-if type cmp_ok 2>/dev/null; then
+if type cmp_ok > /dev/null 2>&1; then
         echo "not ok 2 - 'cmp_ok' is defined as something"
 else
         echo "ok 2 - 'cmp_ok' isn't defined"
 fi
 
 # test 3
-if type diag 2>/dev/null; then
+if type diag > /dev/null 2>&1; then
         echo "not ok 3 - 'diag' is defined as something"
 else
         echo "ok 3 - 'diag' isn't defined"
 fi
 
 # test 4
-if type tests 2>/dev/null; then
+if type tests > /dev/null 2>&1; then
         echo "not ok 4 - 'tests' is defined as something"
 else
         echo "ok 4 - 'tests' isn't defined"
 fi
 
 # test 5
-if type skip_all 2>/dev/null; then
+if type skip_all > /dev/null 2>&1; then
         echo "not ok 5 - 'skip_all' is defined as something"
 else
         echo "ok 5 - 'skip_all' isn't defined"
 fi
 
 # test 6
-if type done_testing 2>/dev/null; then
+if type done_testing > /dev/null 2>&1; then
         echo "not ok 6 - 'done_testing' is defined as something"
 else
         echo "ok 6 - 'done_testing' isn't defined"
 fi
 
 # test 7
-if type ok 2>/dev/null; then
+if type ok > /dev/null 2>&1; then
         echo "not ok 7 - 'ok' is defined as something"
 else
         echo "ok 7 - 'ok' isn't defined"
 fi
 
 # test 8
-if type is 2>/dev/null; then
+if type is > /dev/null 2>&1; then
         echo "not ok 8 - 'is' is defined as something"
 else
         echo "ok 8 - 'is' isn't defined"
 fi
 
 # test 9
-if type isnt 2>/dev/null; then
+if type isnt > /dev/null 2>&1; then
         echo "not ok 9 - 'isnt' is defined as something"
 else
         echo "ok 9 - 'isnt' isn't defined"
 fi
 
 # test 10
-if type like 2>/dev/null; then
+if type like > /dev/null 2>&1; then
         echo "not ok 10 - 'like' is defined as something"
 else
         echo "ok 10 - 'like' isn't defined"
 fi
 
 # test 11
-if type unlike 2>/dev/null; then
+if type unlike > /dev/null 2>&1; then
         echo "not ok 11 - 'unlike' is defined as something"
 else
         echo "ok 11 - 'unlike' isn't defined"
