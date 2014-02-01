@@ -3,7 +3,7 @@
 
 
 echo 1..23
-diag tests before loading
+echo "# tests before loading"
 # test 1
 if test "${_BSHTAP_DONE-"not_defined"}" = "not_defined"; then
 	echo "ok 1 - _BSHTAP_DONE is not defined before loading"
@@ -82,14 +82,14 @@ else
 fi
 
 # load bshtap
-diag test loading
+echo "# test loading"
 if . $(dirname $0)/../bshtap; then
 	echo "ok 12 - loading"
 else
 	echo "not ok 12 - loading"
 fi
 
-diag tests after loading
+echo "# tests after loading"
 # test 13
 if test $_BSHTAP_DONE = 0; then
 	echo "ok 13 - _BSHTAP_DONE is 0 after loading"
