@@ -13,5 +13,5 @@ true
 ok 'false; true' "two commands"
 ok '( false; true; )' "subshell"
 ok 'false | true' "pipe"
-ok 'echo not ok - dummy' "stdout will be commented out"
+ok 'printf "not ok - dummy\n"' "stdout will be commented out"
 ok 'exit 0' "exit can be used in test code"
