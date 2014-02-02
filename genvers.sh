@@ -46,7 +46,7 @@
 #
 #	VERSION:
 #		(cd $(top_srcdir) ;\
-#			echo `./genvers.sh` $< > $@.new ;\
+#			printf "%s\n" `./genvers.sh` $< > $@.new ;\
 #			mv -f $@.new $@ ;)
 #
 #	release:
@@ -80,18 +80,18 @@ DESC=`git describe --dirty 2>/dev/null | grep '^v[0-9]*' | sed -e 's/^v//; s/-/.
 if test -z "$DESC"; then
 	# You must be an user
 	if test -n "$VERSION"; then
-		echo -n $VERSION
+		printf "%s" $VERSION
 	else
-		echo -n noversionfound
-		echo " Maybe $VERSION_FILE is missing" >&2
+		printf "%s" noversionfound
+		printf " Maybe %s is missing" $VERSION_FILE >&2
 	fi
 	exit 0
 fi
 
 if test "x$VERSION" != "x$DESC"; then
 	VERSION=$DESC
-	echo $VERSION > $VERSION_FILE.new
+	printf "%s\n" $VERSION > $VERSION_FILE.new
 	mv $VERSION_FILE.new $VERSION_FILE
 fi
 
-echo -n $VERSION
+printf "%s" $VERSION

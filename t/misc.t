@@ -3,7 +3,7 @@
 
 . $(dirname $0)/../bshtap
 
-echo 1..10
+printf "1..10\n"
 is 'tests 1' '1..1'
 is 'done_testing' '1..1'
 is 'tests 2' '1..2'

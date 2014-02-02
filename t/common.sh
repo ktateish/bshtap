@@ -7,13 +7,13 @@ nword () {
 	word=$2
 	i=1
 
-	echo -n $word
+	printf "%s" $word
 	while test $i -lt $n
 	do
-		echo -n " $word"
+		printf "%s" " $word"
 		i=$(expr $i + 1)
 	done
-	echo
+	printf "\n"
 }
 
 nline () {
@@ -24,7 +24,7 @@ nline () {
 
 	while test $i -le $n
 	do
-		echo $word
+		printf "%s\n" $word
 		i=$(expr $i + 1)
 	done
 }

@@ -52,8 +52,7 @@ cmp_ok "nword 1 foo" -eq 0
 ( skip_all )
 ( skip_all some reason )
 
-echo
-echo ALL_DONE
+printf "\nALL_DONE\n"
 
 EOM
 ) |sh - > output.out
