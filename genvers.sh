@@ -76,7 +76,7 @@ if test -f $VERSION_FILE; then
 	VERSION=`cat $VERSION_FILE`
 fi
 
-DESC=`git describe 2>/dev/null | grep '^v[0-9]*' | sed -e 's/^v//; s/-/./g;'`
+DESC=`git describe --dirty 2>/dev/null | grep '^v[0-9]*' | sed -e 's/^v//; s/-/./g;'`
 if test -z "$DESC"; then
 	# You must be an user
 	if test -n "$VERSION"; then
@@ -88,14 +88,8 @@ if test -z "$DESC"; then
 	exit 0
 fi
 
-# dirty check
-if git status |grep -qE '^# Change'; then
-	DIRTY=".dirty"
-fi
-
-VERSION_NEW=$DESC$DIRTY
-if test "x$VERSION" != "x$VERSION_NEW"; then
-	VERSION=$VERSION_NEW
+if test "x$VERSION" != "x$DESC"; then
+	VERSION=$DESC
 	echo $VERSION > $VERSION_FILE.new
 	mv $VERSION_FILE.new $VERSION_FILE
 fi
