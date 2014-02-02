@@ -13,7 +13,7 @@ EXTRA_DIST = \
 
 VERSION:
 	(cd $(top_srcdir) ;\
-		echo `./genvers.sh` $< > $@.new ;\
+		printf "%s\n" `./genvers.sh` $< > $@.new ;\
 		mv -f $@.new $@ ;)
 
 release:
