@@ -15,7 +15,7 @@ SYNOPSIS
 				# Or set your PATH to the installed directory
 				# and just load as '. bshtap'
 
-tests 11			# use tests to set the number of tests
+tests 13			# use tests to set the number of tests
 
 #skip_all "some reason"		# skip_all prints '1..0 # SKIP some reason' and
 				# exit immediately
@@ -72,6 +72,11 @@ piks				# lines immediately and following bshtap
 				# Note that it means normal commands will be
 				# invoked as usual even if they are in 'skip'
 				# ... 'piks' context.
+
+todo "we need this"		# 'todo' prints out ' # TODO ...' messages
+	ok another_func1	# after each test output until 'otod' invoked.
+	ok another_func2
+odot
 
 #done_testing			# Use 'done_testing' instead of 'tests' if you
 				# don't want to specify the number of tests.
