@@ -61,7 +61,7 @@ skip "other reason" 3
 	unlike "echo foo" "f.*" "unlike"
 	cmp_ok true -eq 1 "cmp_ok"
 piks
-ok true
+ok true "done skipping"
 
 printf "\nALL_DONE\n"
 
