@@ -15,7 +15,7 @@ SYNOPSIS
 				# Or set your PATH to the installed directory
 				# and just load as '. bshtap'
 
-tests 8				# use tests to set the number of tests
+tests 13			# use tests to set the number of tests
 
 #skip_all "some reason"		# skip_all prints '1..0 # SKIP some reason' and
 				# exit immediately
@@ -60,6 +60,23 @@ cmp_ok false -eq 1		# 'cmp_ok' is a generalized 'ok' with test
 				#        echo not ok
 				#      fi
 				#      -------------------------
+
+skip "not implemented" 3	# 'skip' skips following tests avoiding to
+	ok broken_func1		# invoke test commands until 'piks' invoked.
+	ok broken_func2		# Actually, the 'skip' prints out
+	ok broken_func3		#   'ok <n> # skip ...'
+piks				# lines immediately and following bshtap
+				# functions (e.g. ok, is, ...) are invoked and
+				# just return soon.
+				#
+				# Note that it means normal commands will be
+				# invoked as usual even if they are in 'skip'
+				# ... 'piks' context.
+
+todo "we need this"		# 'todo' prints out ' # TODO ...' messages
+	ok another_func1	# after each test output until 'otod' invoked.
+	ok another_func2
+odot
 
 #done_testing			# Use 'done_testing' instead of 'tests' if you
 				# don't want to specify the number of tests.

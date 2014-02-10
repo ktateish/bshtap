@@ -27,6 +27,8 @@
 
 _BSHTAP_NTESTS=
 _BSHTAP_DONE=0
+_BSHTAP_SKIP_CTX=
+_BSHTAP_TODO=
 
 _bshtap_exit_check () {
 	if test -n "$_BSHTAP_NTESTS"; then
@@ -49,15 +51,18 @@ trap _bshtap_exit_check 0
 
 _bshtap_test_ok_ng () {
 	_BSHTAP_DONE=$(expr $_BSHTAP_DONE + 1)
-	echo "$1" $_BSHTAP_DONE - "$2"
+	echo "$1" $_BSHTAP_DONE "$2${_BSHTAP_TODO}"
 }
 
 _bshtap_test_ok () {
-	_bshtap_test_ok_ng 'ok' "$1"
+	_bshtap_test_ok_ng 'ok' "- $1"
 }
 
 _bshtap_test_ng () {
-	_bshtap_test_ok_ng 'not ok' "$1"
+	_bshtap_test_ok_ng 'not ok' "- $1"
+	if test -n "$_BSHTAP_TODO"; then
+		printf "#   Failed (TODO) test '%s'\n" "$1"
+	fi
 }
 
 _bshtap_is_isnt () {
@@ -113,7 +118,7 @@ _bshtap_like_unlike () {
 	fi
 }
 
-cmp_ok () {
+_bshtap_cmp_ok () {
 	local res op expected name
 	res="${1?"cmp_ok: no argument for test code"}"
 	op="${2?"cmp_ok: no argument for operator"}"
@@ -165,29 +170,88 @@ done_testing () {
 }
 
 ok () {
+	if test -n "$_BSHTAP_SKIP_CTX"; then
+		return
+	fi
 	local res name
 	res="${1?"ok: no argument for test code"}"
 	name="${2:-"\"${res}\" returns 0"}"
-	cmp_ok "$res" -eq 0 "$name"
+	_bshtap_cmp_ok "$res" -eq 0 "$name"
 }
 
 is () {
+	if test -n "$_BSHTAP_SKIP_CTX"; then
+		return
+	fi
 	_bshtap_is_isnt is "$@"
 }
 
 isnt () {
+	if test -n "$_BSHTAP_SKIP_CTX"; then
+		return
+	fi
 	_bshtap_is_isnt isnt "$@"
 }
 
 like () {
+	if test -n "$_BSHTAP_SKIP_CTX"; then
+		return
+	fi
 	_bshtap_like_unlike like "$@"
 }
 
 unlike () {
+	if test -n "$_BSHTAP_SKIP_CTX"; then
+		return
+	fi
 	_bshtap_like_unlike unlike "$@"
 }
 
+cmp_ok () {
+	if test -n "$_BSHTAP_SKIP_CTX"; then
+		return
+	fi
+	_bshtap_cmp_ok "$@"
+}
+
 BAIL_OUT () {
+	if test -n "$_BSHTAP_SKIP_CTX"; then
+		return
+	fi
 	echo Bail out! $1
 	exit 1
+}
+
+skip () {
+	_BSHTAP_SKIP_CTX="${_BSHTAP_SKIP_CTX}skip"
+	local reason nskip
+	reason="$1"
+	nskip=${2:-1}
+
+	if test -n "$reason"; then
+		reason=" $reason"
+	fi
+
+	i=0
+	while test $i -lt $nskip
+	do
+		_bshtap_test_ok_ng "ok" "# skip$reason"
+		i=$(expr $i + 1)
+	done
+}
+
+piks () {
+	_BSHTAP_SKIP_CTX="$(echo $_BSHTAP_SKIP_CTX | sed -e 's/skip//')"
+}
+
+todo () {
+	local reason
+	if test -n "$1"; then
+		reason=" $1"
+	fi
+	_BSHTAP_TODO=" # TODO${reason}"
+}
+
+odot () {
+	_BSHTAP_TODO=
 }
