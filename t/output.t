@@ -63,6 +63,12 @@ skip "other reason" 3
 piks
 ok true "done skipping"
 
+todo "yet another reason"
+	ok true
+	ok false
+odot
+ok true "done todo"
+
 printf "\nALL_DONE\n"
 
 EOM

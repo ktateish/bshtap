@@ -28,6 +28,7 @@
 _BSHTAP_NTESTS=
 _BSHTAP_DONE=0
 _BSHTAP_SKIP_CTX=
+_BSHTAP_TODO=
 
 _bshtap_exit_check () {
 	if test -n "$_BSHTAP_NTESTS"; then
@@ -50,7 +51,7 @@ trap _bshtap_exit_check 0
 
 _bshtap_test_ok_ng () {
 	_BSHTAP_DONE=$(expr $_BSHTAP_DONE + 1)
-	echo "$1" $_BSHTAP_DONE "$2"
+	echo "$1" $_BSHTAP_DONE "$2${_BSHTAP_TODO}"
 }
 
 _bshtap_test_ok () {
@@ -59,6 +60,9 @@ _bshtap_test_ok () {
 
 _bshtap_test_ng () {
 	_bshtap_test_ok_ng 'not ok' "- $1"
+	if test -n "$_BSHTAP_TODO"; then
+		printf "#   Failed (TODO) test '%s'\n" "$1"
+	fi
 }
 
 _bshtap_is_isnt () {
@@ -238,4 +242,16 @@ skip () {
 
 piks () {
 	_BSHTAP_SKIP_CTX="$(echo $_BSHTAP_SKIP_CTX | sed -e 's/skip//')"
+}
+
+todo () {
+	local reason
+	if test -n "$1"; then
+		reason=" $1"
+	fi
+	_BSHTAP_TODO=" # TODO${reason}"
+}
+
+odot () {
+	_BSHTAP_TODO=
 }
