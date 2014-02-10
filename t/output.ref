@@ -33,5 +33,10 @@ ok 8 - "nword 1 foo" -eq "0"
 # stdout: foo
 1..0 # SKIP 
 1..0 # SKIP some reason
+ok 9 - "true" returns 0
+ok 10 # skip other reason
+ok 11 # skip other reason
+ok 12 # skip other reason
+ok 13 - "true" returns 0
 
 ALL_DONE
