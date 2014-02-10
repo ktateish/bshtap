@@ -113,7 +113,7 @@ _bshtap_like_unlike () {
 	fi
 }
 
-cmp_ok () {
+_bshtap_cmp_ok () {
 	local res op expected name
 	res="${1?"cmp_ok: no argument for test code"}"
 	op="${2?"cmp_ok: no argument for operator"}"
@@ -168,7 +168,7 @@ ok () {
 	local res name
 	res="${1?"ok: no argument for test code"}"
 	name="${2:-"\"${res}\" returns 0"}"
-	cmp_ok "$res" -eq 0 "$name"
+	_bshtap_cmp_ok "$res" -eq 0 "$name"
 }
 
 is () {
@@ -185,6 +185,10 @@ like () {
 
 unlike () {
 	_bshtap_like_unlike unlike "$@"
+}
+
+cmp_ok () {
+	_bshtap_cmp_ok "$@"
 }
 
 BAIL_OUT () {
