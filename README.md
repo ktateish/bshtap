@@ -1,14 +1,39 @@
-bshtap
-======
+bshtap(7)
+=========
 
-Yet another TAP testing library for Bourne Shell
+NAME
+----
+bshtap - Yet another TAP testing library for Bourne Shell
 
 SYNOPSIS
-========
+--------
+```sh
+. /path/to/bshtap
+tests <n>
+skip_all [<reason>]
+diag <message>
+ok <command> [<test name>]
+is <command> <expected> [<test name>]
+isnt <command> <unexpected> [<test name>]
+like <command> <expected regex> [<test name>]
+unlike <command> <unexpected regex> [<test name>]
+cmp_ok <command> <op> <expected> [<test name>]
+skip [<reason>] [<n>]
+piks
+todo [<reason>]
+odot
+done_testing [<n>]
+```
+
+EXAMPLES
+--------
 ```sh
 #!/bin/sh
 
 . /path/to/your_functions.sh	# Load your functions that will be tested.
+				# Of course you can use bshtap for testing
+				# your commands installed in your PATH without
+				# loading any functions.
 
 . /usr/share/bshtap/bshtap	# Load with the full path to the bshtap where
 				# you installed.
@@ -85,16 +110,24 @@ odot
 ```
 
 INSTALLATION
-============
+------------
 Place the https://github.com/ktateish/bshtap/raw/master/bshtap script
 anywhere you want.
 
-Or do the following
+Or download tarball from https://github.com/ktateish/bshtap/tarball/dist/
+and do the following:
 ```
-git clone http://github.com/ktateish/bshtap.git
-cd bshtap
-autoreconf -ivh
+tar xvf ktateish-bshtap-<version>.tar.gz
+cd ktateish-bshtap-<version>
 ./configure
-make
+make			# or gmake
 make install
 ```
+
+TESTED PLATFORMS
+----------------
+* Linux (GNU bash)
+* FreeBSD 9.x
+* NetBSD 6.1.3
+* OpenBSD 5.4
+* MacOS X Marvericks
