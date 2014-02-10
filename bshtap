@@ -49,15 +49,15 @@ trap _bshtap_exit_check 0
 
 _bshtap_test_ok_ng () {
 	_BSHTAP_DONE=$(expr $_BSHTAP_DONE + 1)
-	echo "$1" $_BSHTAP_DONE - "$2"
+	echo "$1" $_BSHTAP_DONE "$2"
 }
 
 _bshtap_test_ok () {
-	_bshtap_test_ok_ng 'ok' "$1"
+	_bshtap_test_ok_ng 'ok' "- $1"
 }
 
 _bshtap_test_ng () {
-	_bshtap_test_ok_ng 'not ok' "$1"
+	_bshtap_test_ok_ng 'not ok' "- $1"
 }
 
 _bshtap_is_isnt () {
