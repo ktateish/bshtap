@@ -86,11 +86,12 @@ _bshtap_is_isnt () {
 		_bshtap_test_ng "$name"
 
 		diag "got: $got"
-		echo -n "# "
+
+		expected="expected: $expected"
 		if test "$mode" = "isnt"; then
-			echo -n "not "
+			expected="not $expected"
 		fi
-		echo "expected: $expected"
+		diag "$expected"
 	fi
 }
 
