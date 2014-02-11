@@ -52,8 +52,24 @@ cmp_ok "nword 1 foo" -eq 0
 ( skip_all )
 ( skip_all some reason )
 
-echo
-echo ALL_DONE
+ok true
+skip "other reason" 3
+	ok false "ok"
+	is "echo foo" "bar" "is"
+	isnt "echo foo" "foo" "isnt"
+	like "echo foo" "b.*" "like"
+	unlike "echo foo" "f.*" "unlike"
+	cmp_ok true -eq 1 "cmp_ok"
+piks
+ok true "done skipping"
+
+todo "yet another reason"
+	ok true
+	ok false
+odot
+ok true "done todo"
+
+printf "\nALL_DONE\n"
 
 EOM
 ) |sh - > output.out

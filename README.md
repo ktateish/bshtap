@@ -1,21 +1,46 @@
-bshtap
-======
+bshtap(7)
+=========
 
-Yet another TAP testing library for Bourne Shell
+NAME
+----
+bshtap - Yet another TAP testing library for Bourne Shell
 
 SYNOPSIS
-========
+--------
+```sh
+. /path/to/bshtap
+tests <n>
+skip_all [<reason>]
+diag <message>
+ok <command> [<test name>]
+is <command> <expected> [<test name>]
+isnt <command> <unexpected> [<test name>]
+like <command> <expected regex> [<test name>]
+unlike <command> <unexpected regex> [<test name>]
+cmp_ok <command> <op> <expected> [<test name>]
+skip [<reason>] [<n>]
+piks
+todo [<reason>]
+odot
+done_testing [<n>]
+```
+
+EXAMPLES
+--------
 ```sh
 #!/bin/sh
 
 . /path/to/your_functions.sh	# Load your functions that will be tested.
+				# Of course you can use bshtap for testing
+				# your commands installed in your PATH without
+				# loading any functions.
 
 . /usr/share/bshtap/bshtap	# Load with the full path to the bshtap where
 				# you installed.
 				# Or set your PATH to the installed directory
 				# and just load as '. bshtap'
 
-tests 8				# use tests to set the number of tests
+tests 13			# use tests to set the number of tests
 
 #skip_all "some reason"		# skip_all prints '1..0 # SKIP some reason' and
 				# exit immediately
@@ -61,6 +86,23 @@ cmp_ok false -eq 1		# 'cmp_ok' is a generalized 'ok' with test
 				#      fi
 				#      -------------------------
 
+skip "not implemented" 3	# 'skip' skips following tests avoiding to
+	ok broken_func1		# invoke test commands until 'piks' invoked.
+	ok broken_func2		# Actually, the 'skip' prints out
+	ok broken_func3		#   'ok <n> # skip ...'
+piks				# lines immediately and following bshtap
+				# functions (e.g. ok, is, ...) are invoked and
+				# just return soon.
+				#
+				# Note that it means normal commands will be
+				# invoked as usual even if they are in 'skip'
+				# ... 'piks' context.
+
+todo "we need this"		# 'todo' prints out ' # TODO ...' messages
+	ok another_func1	# after each test output until 'otod' invoked.
+	ok another_func2
+odot
+
 #done_testing			# Use 'done_testing' instead of 'tests' if you
 				# don't want to specify the number of tests.
 				# It counts the number of ok/is/isnt...etc. and
@@ -68,16 +110,24 @@ cmp_ok false -eq 1		# 'cmp_ok' is a generalized 'ok' with test
 ```
 
 INSTALLATION
-============
+------------
 Place the https://github.com/ktateish/bshtap/raw/master/bshtap script
 anywhere you want.
 
-Or do the following
+Or download tarball from https://github.com/ktateish/bshtap/tarball/dist/
+and do the following:
 ```
-git clone http://github.com/ktateish/bshtap.git
-cd bshtap
-autoreconf -ivh
+tar xvf ktateish-bshtap-<version>.tar.gz
+cd ktateish-bshtap-<version>
 ./configure
-make
+make			# or gmake
 make install
 ```
+
+TESTED PLATFORMS
+----------------
+* Linux (GNU bash)
+* FreeBSD 9.x
+* NetBSD 6.1.3
+* OpenBSD 5.4
+* MacOS X Marvericks

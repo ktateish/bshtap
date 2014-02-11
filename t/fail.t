@@ -5,45 +5,45 @@
 
 # These tests ensure that Invalid invoking will fail.
 
-echo 1..12
+printf "1..12\n"
 exec 3>&1 1>&2
 
-echo3 () {
-	echo "$@" >&3
+printf3 () {
+	printf "$@" >&3
 }
 
-( ok ) && echo3 -n "not "
-echo3 ok - ok without arguments
+( ok ) && printf3 "not "
+printf3 "ok - ok without arguments\n"
 
-(cmp_ok) && echo3 -n "not "
-echo3 ok - cmp_ok without arguments
+(cmp_ok) && printf3 "not "
+printf3 "ok - cmp_ok without arguments\n"
 
-(cmp_ok true) && echo3 -n "not "
-echo3 ok - cmp_ok without expected operator
+(cmp_ok true) && printf3 "not "
+printf3 "ok - cmp_ok without expected operator\n"
 
-(cmp_ok true -eq) && echo3 -n "not "
-echo3 ok - cmp_ok without expected result
+(cmp_ok true -eq) && printf3 "not "
+printf3 "ok - cmp_ok without expected result\n"
 
-(is) && echo3 -n "not "
-echo3 ok - is without arguments
+(is) && printf3 "not "
+printf3 "ok - is without arguments\n"
 
-(is "echo foo") && echo3 -n "not "
-echo3 ok - is without expected result
+(is "printf 'foo\n'") && printf3 "not "
+printf3 "ok - is without expected result\n"
 
-(isnt) && echo3 -n "not "
-echo3 ok - isnt without arguments
+(isnt) && printf3 "not "
+printf3 "ok - isnt without arguments\n"
 
-(isnt "echo foo") && echo3 -n "not "
-echo3 ok - isnt without expected result
+(isnt "printf 'foo\n'") && printf3 "not "
+printf3 "ok - isnt without expected result\n"
 
-(like) && echo3 -n "not "
-echo3 ok - like without arguments
+(like) && printf3 "not "
+printf3 "ok - like without arguments\n"
 
-(like "echo foo") && echo3 -n "not "
-echo3 ok - like without regex
+(like "printf 'foo\n'") && printf3 "not "
+printf3 "ok - like without regex\n"
 
-(unlike) && echo3 -n "not "
-echo3 ok - unlike without arguments
+(unlike) && printf3 "not "
+printf3 "ok - unlike without arguments\n"
 
-(unlike "echo foo") && echo3 -n "not "
-echo3 ok - unlike without regex
+(unlike "printf 'foo\n'") && printf3 "not "
+printf3 "ok - unlike without regex\n"

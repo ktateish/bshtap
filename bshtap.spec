@@ -1,5 +1,5 @@
 Name:           bshtap
-Version:        0.1.0
+Version:        0.1.1
 Release:        1%{?dist}
 Summary:        Yet another TAP testing library for Bourne Shell
 
