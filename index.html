@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Bshtap by ktateish</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/ktateish/bshtap">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/ktateish/bshtap/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/ktateish/bshtap/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Bshtap</h1>
+          <p>Yet another TAP testing library for /bin/sh</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/ktateish">ktateish</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>
+<a name="bshtap7" class="anchor" href="#bshtap7"><span class="octicon octicon-link"></span></a>bshtap(7)</h1>
+
+<h2>
+<a name="name" class="anchor" href="#name"><span class="octicon octicon-link"></span></a>NAME</h2>
+
+<p>bshtap - Yet another TAP testing library for Bourne Shell</p>
+
+<h2>
+<a name="synopsis" class="anchor" href="#synopsis"><span class="octicon octicon-link"></span></a>SYNOPSIS</h2>
+
+<div class="highlight highlight-sh"><pre>. /path/to/bshtap
+tests &lt;n&gt;
+skip_all <span class="o">[</span>&lt;reason&gt;<span class="o">]</span>
+diag &lt;message&gt;
+ok &lt;<span class="nb">command</span>&gt; <span class="o">[</span>&lt;<span class="nb">test </span>name&gt;<span class="o">]</span>
+is &lt;<span class="nb">command</span>&gt; &lt;expected&gt; <span class="o">[</span>&lt;<span class="nb">test </span>name&gt;<span class="o">]</span>
+isnt &lt;<span class="nb">command</span>&gt; &lt;unexpected&gt; <span class="o">[</span>&lt;<span class="nb">test </span>name&gt;<span class="o">]</span>
+like &lt;<span class="nb">command</span>&gt; &lt;expected regex&gt; <span class="o">[</span>&lt;<span class="nb">test </span>name&gt;<span class="o">]</span>
+unlike &lt;<span class="nb">command</span>&gt; &lt;unexpected regex&gt; <span class="o">[</span>&lt;<span class="nb">test </span>name&gt;<span class="o">]</span>
+cmp_ok &lt;<span class="nb">command</span>&gt; &lt;op&gt; &lt;expected&gt; <span class="o">[</span>&lt;<span class="nb">test </span>name&gt;<span class="o">]</span>
+skip <span class="o">[</span>&lt;reason&gt;<span class="o">]</span> <span class="o">[</span>&lt;n&gt;<span class="o">]</span>
+piks
+todo <span class="o">[</span>&lt;reason&gt;<span class="o">]</span>
+odot
+done_testing <span class="o">[</span>&lt;n&gt;<span class="o">]</span>
+</pre></div>
+
+<h2>
+<a name="examples" class="anchor" href="#examples"><span class="octicon octicon-link"></span></a>EXAMPLES</h2>
+
+<div class="highlight highlight-sh"><pre><span class="c">#!/bin/sh</span>
+
+. /path/to/your_functions.sh    <span class="c"># Load your functions that will be tested.</span>
+                                <span class="c"># Of course you can use bshtap for testing</span>
+                                <span class="c"># your commands installed in your PATH without</span>
+                                <span class="c"># loading any functions.</span>
+
+. /usr/share/bshtap/bshtap      <span class="c"># Load with the full path to the bshtap where</span>
+                                <span class="c"># you installed.</span>
+                                <span class="c"># Or set your PATH to the installed directory</span>
+                                <span class="c"># and just load as '. bshtap'</span>
+
+tests 13                        <span class="c"># use tests to set the number of tests</span>
+
+<span class="c">#skip_all "some reason"         # skip_all prints '1..0 # SKIP some reason' and</span>
+                                <span class="c"># exit immediately</span>
+
+<span class="c"># you can also use 'done_testing' after tests(see below)</span>
+
+diag example tests              <span class="c"># diag for diagnostic messages</span>
+
+
+<span class="c"># You can use ok, is, isnt, like, unlike, cmp_ok</span>
+
+ok <span class="nb">true</span> <span class="s2">"test name"</span>             <span class="c"># 'ok' checks the return value of the first</span>
+                                <span class="c"># argument as command(s)</span>
+
+ok <span class="s2">"true foo"</span> <span class="s2">"test name #2"</span>    <span class="c"># Quote the test code when they are more than</span>
+                                <span class="c"># 2 words. i.e. only the first argument is taken</span>
+                                <span class="c"># as the test code</span>
+
+ok <span class="nb">true</span>                         <span class="c"># You can omit the test name.  It prints the</span>
+                                <span class="c"># first argument as the test name</span>
+
+is <span class="s2">"echo foo"</span> <span class="s2">"foo"</span>             <span class="c"># Use 'is' to check the output of the first</span>
+                                <span class="c"># argument</span>
+
+isnt <span class="s2">"echo foo"</span> <span class="s2">"bar"</span>           <span class="c"># 'isnt' for checking the output of the first</span>
+                                <span class="c"># argument differ from the second</span>
+
+like <span class="s2">"date '+%Y'"</span> <span class="s2">"[0-9]{4}"</span>    <span class="c"># Use 'like' to check the output with RE(egrep).</span>
+
+unlike <span class="s2">"echo foo"</span> <span class="s2">"[0-9]{4}"</span>    <span class="c"># 'unlike' is complementary to 'like'</span>
+
+cmp_ok <span class="nb">false</span> -eq 1              <span class="c"># 'cmp_ok' is a generalized 'ok' with test</span>
+                                <span class="c"># operator.  It tests the return value of the</span>
+                                <span class="c"># first argument and the third argument with</span>
+                                <span class="c"># second argument as a test operator.</span>
+                                <span class="c"># e.g. in this example above, it is checking</span>
+                                <span class="c">#      -------------------------</span>
+                                <span class="c">#      false</span>
+                                <span class="c">#      if [ $? -eq 1 ]; then</span>
+                                <span class="c">#        echo ok</span>
+                                <span class="c">#      else</span>
+                                <span class="c">#        echo not ok</span>
+                                <span class="c">#      fi</span>
+                                <span class="c">#      -------------------------</span>
+
+skip <span class="s2">"not implemented"</span> 3        <span class="c"># 'skip' skips following tests avoiding to</span>
+        ok broken_func1         <span class="c"># invoke test commands until 'piks' invoked.</span>
+        ok broken_func2         <span class="c"># Actually, the 'skip' prints out</span>
+        ok broken_func3         <span class="c">#   'ok &lt;n&gt; # skip ...'</span>
+piks                            <span class="c"># lines immediately and following bshtap</span>
+                                <span class="c"># functions (e.g. ok, is, ...) are invoked and</span>
+                                <span class="c"># just return soon.</span>
+                                <span class="c">#</span>
+                                <span class="c"># Note that it means normal commands will be</span>
+                                <span class="c"># invoked as usual even if they are in 'skip'</span>
+                                <span class="c"># ... 'piks' context.</span>
+
+todo <span class="s2">"we need this"</span>             <span class="c"># 'todo' prints out ' # TODO ...' messages</span>
+        ok another_func1        <span class="c"># after each test output until 'otod' invoked.</span>
+        ok another_func2
+odot
+
+<span class="c">#done_testing                   # Use 'done_testing' instead of 'tests' if you</span>
+                                <span class="c"># don't want to specify the number of tests.</span>
+                                <span class="c"># It counts the number of ok/is/isnt...etc. and</span>
+                                <span class="c"># put the 1..N</span>
+</pre></div>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>INSTALLATION</h2>
+
+<p>Place the <a href="https://github.com/ktateish/bshtap/raw/master/bshtap">https://github.com/ktateish/bshtap/raw/master/bshtap</a> script
+anywhere you want.</p>
+
+<p>Or download tarball from <a href="https://github.com/ktateish/bshtap/tarball/dist/">https://github.com/ktateish/bshtap/tarball/dist/</a>
+and do the following:</p>
+
+<pre><code>tar xvf ktateish-bshtap-&lt;version&gt;.tar.gz
+cd ktateish-bshtap-&lt;version&gt;
+./configure
+make                            # or gmake
+make install
+</code></pre>
+
+<h2>
+<a name="tested-platforms" class="anchor" href="#tested-platforms"><span class="octicon octicon-link"></span></a>TESTED PLATFORMS</h2>
+
+<ul>
+<li>Linux (GNU bash)</li>
+<li>FreeBSD 9.x</li>
+<li>NetBSD 6.1.3</li>
+<li>OpenBSD 5.4</li>
+<li>MacOS X Marvericks</li>
+</ul>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
