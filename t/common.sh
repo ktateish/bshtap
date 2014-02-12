@@ -11,7 +11,7 @@ nword () {
 	while test $i -lt $n
 	do
 		printf "%s" " $word"
-		i=$(expr $i + 1)
+		i=$(($i + 1))
 	done
 	printf "\n"
 }
@@ -25,6 +25,6 @@ nline () {
 	while test $i -le $n
 	do
 		printf "%s\n" $word
-		i=$(expr $i + 1)
+		i=$(($i + 1))
 	done
 }

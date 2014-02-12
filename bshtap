@@ -50,7 +50,7 @@ _bshtap_exit_check () {
 trap _bshtap_exit_check 0
 
 _bshtap_test_ok_ng () {
-	_BSHTAP_DONE=$(expr $_BSHTAP_DONE + 1)
+	_BSHTAP_DONE=$(($_BSHTAP_DONE + 1))
 	echo "$1" $_BSHTAP_DONE "$2${_BSHTAP_TODO}"
 }
 
@@ -237,7 +237,7 @@ skip () {
 	while test $i -lt $nskip
 	do
 		_bshtap_test_ok_ng "ok" "# skip$reason"
-		i=$(expr $i + 1)
+		i=$(($i + 1))
 	done
 }
 
