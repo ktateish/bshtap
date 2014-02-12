@@ -25,6 +25,12 @@ odot
 done_testing [<n>]
 ```
 
+DESCRIPTION
+-----------
+The bshtap is a TAP compliant /bin/sh library for test.  It has simple
+interface like Perl Test::More and works on some platforms.
+It can be used to test not only for /bin/sh functions but also for Unix commands.
+
 EXAMPLES
 --------
 ```sh
@@ -126,7 +132,7 @@ make install
 
 TESTED PLATFORMS
 ----------------
-* Linux (GNU bash)
+* Linux (bash, dash)
 * FreeBSD 9.x
 * NetBSD 6.1.3
 * OpenBSD 5.4
